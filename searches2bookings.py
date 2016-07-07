@@ -101,15 +101,11 @@ def do_it():
             
             if row['RoundTrip'] == '1':
                 assert(seg_count < int(row['NbSegments'])), "Round trip wrong segment count at {0} {1} at {2}".format(seg_count, row['NbSegments'], row_nb)
-            else:
-                if seg_count != int(row['NbSegments']):
-                    #print ("Single trip wrong segment count {0} {1} at {2}".format(seg_count, row['NbSegments'], row_nb))
-                    pass
                     
             # Do the check only on the outbound, we suppose that there cannot be a booking for inbound with no booking for outbound
             key = (route, date_flight)
             search_date = row['Date'].strip()
-            #row[col_booking] = int(key in bookings_dict)
+
             if key in bookings_dict:
                 # We consider a matching only if the search date and the booking creation date meet this inequality:
                 # search date <= booking date <= flight date
@@ -129,7 +125,6 @@ def do_it():
                         if dateobj_search <= dateobj_booking:
                             row[col_booking] = 1
                             matching_count += 1
-                            #print "Search/Booking Dates matching ", dateobj_search, dateobj_booking, dateobj_flight
                             break
 
             
@@ -137,9 +132,6 @@ def do_it():
         
         # Some rows are delimited by ',' instead of '^' -> they are disregarded
         except Exception as e:
-            #print(e)
-            #print("Exception at {}".format(row_nb))
-            #print row
             continue
             
     print "END Total searches/bookings matched:{0}/{1} ".format(matching_count, row_nb - 1) 
