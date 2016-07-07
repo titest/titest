@@ -19,7 +19,7 @@ def do_it():
     This is serialized into a file in order to minimize execution time between re-run
     Second pass: Go through the search file and try to match each search with a booking
   """    
-  with open(SEARCHES_FILE, 'rb') as searches_csv, open(BOOKINGS_FILE, 'rb') as bookings_csv, open(OUTPUT_FILE, 'wb') as output_csv:
+  with open(SEARCHES_FILE, 'rb') as searches_csv, open(BOOKINGS_FILE, 'rb') as bookings_csv, open(OUTPUT_FILE, 'w') as output_csv:
     searchreader = csv.DictReader(searches_csv, delimiter='^', quoting=csv.QUOTE_MINIMAL)
     bookingreader = csv.DictReader(bookings_csv, delimiter='^', quoting=csv.QUOTE_MINIMAL)
 
@@ -60,7 +60,7 @@ def do_it():
         with open(DICT_FILE, 'wb') as dict_p:
             pickle.dump(bookings_dict, dict_p)
     
-    col_booking = 'booking'
+    col_booking = 'Booking'
     fieldnames = searchreader.fieldnames + [col_booking]
     outputwriter = csv.DictWriter(output_csv, delimiter='^', quoting=csv.QUOTE_MINIMAL, fieldnames=fieldnames)
     outputwriter.writeheader()
@@ -105,15 +105,16 @@ def do_it():
             # Do the check only on the outbound, we suppose that there cannot be a booking for inbound with no booking for outbound
             key = (route, date_flight)
             search_date = row['Date'].strip()
-
+            
+            row[col_booking] = '0'
             if key in bookings_dict:
                 # We consider a matching only if the search date and the booking creation date meet this inequality:
                 # search date <= booking date <= flight date
                 # A stricter condition would be to have search and booking date equal
-                row[col_booking] = 0
+                
                 # Case where search_date == booking creation date
                 if search_date in bookings_dict[key]:
-                    row[col_booking] = 1
+                    row[col_booking] = '1'
                     matching_count += 1
                 else:
                     dateobj_search = datetime.strptime(search_date, DATE_FORMAT)
@@ -123,7 +124,7 @@ def do_it():
                         assert(dateobj_booking <= dateobj_flight), "Booking/Flight date in wrong order"
 
                         if dateobj_search <= dateobj_booking:
-                            row[col_booking] = 1
+                            row[col_booking] = '1'
                             matching_count += 1
                             break
 
