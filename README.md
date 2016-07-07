@@ -4,13 +4,26 @@
 
 ```
 awk 'END {print NR}' searches.csv
+20390199
 awk 'END {print NR}' bookings.csv
+10000011
 ```
 
 ## Exercise 2
 
 ```
 awk -F^ 'NR>1{arr[$13]+=$35} END {for (i in arr) {print i,arr[i]}}' bookings.csv | sort -r -g -k2 | head -n 10 | awk '{code=$1;nb=$2;"curl -s \"http://api.geonames.org/searchJSON?q="$1"\&maxRows=1&fcode=AIRP&username=demo\" "| getline; print code, "\t", gensub(/.*"toponymName":"([^"]+)".*/,"\\1","g"), "\t", nb}'
+
+LHR      London Heathrow Airport         88809
+MCO      Orlando International Airport   70930
+LAX      Los Angeles International Airport       70530
+LAS      Las Américas International Airport      69630
+JFK      John F. Kennedy International Airport   66270
+CDG      Paris Charles de Gaulle Airport         64490
+BKK      Suvarnabhumi Airport    59460
+MIA      Maseru-Mia      58150
+SFO      San Francisco International Airport     58000
+DXB      Dubai International Airport     55590
 ```
 
 ## Exercise 3
@@ -21,6 +34,8 @@ See Exercise3.ipynb
 
 ```
 python searches2bookings.py
+
+Will produce searches_matched.csv
 ```
 
 ## Bonus exercise: Write a Web Service
