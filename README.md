@@ -11,6 +11,11 @@ awk 'END {print NR}' bookings.csv
 
 ## Exercise 2
 
+Python version:
+Exercise2.ipynb
+
+or
+Bash version:
 ```
 awk -F^ 'NR>1{arr[$13]+=$35} END {for (i in arr) {print i,arr[i]}}' bookings.csv | sort -r -g -k2 | head -n 10 | awk '{code=$1;nb=$2;"curl -s \"http://api.geonames.org/searchJSON?q="$1"\&maxRows=1&fcode=AIRP&username=demo\" "| getline; print code, "\t", gensub(/.*"toponymName":"([^"]+)".*/,"\\1","g"), "\t", nb}'
 
@@ -33,7 +38,7 @@ See Exercise3.ipynb
 ## Bonus exercise: Match searches with bookings
 
 ```
-python searches2bookings.py
+New version in progress, wait for 12/07/2016
 
 Will produce searches_matched.csv
 ```
