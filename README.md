@@ -38,7 +38,7 @@ See Exercise3.ipynb
 ## Bonus exercise: Match searches with bookings
 
 ```
-New version in progress, wait for 12/07/2016
+python searches2bookings.py
 
 Will produce searches_matched.csv
 ```
